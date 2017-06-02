@@ -74,7 +74,7 @@ public class SpymemcachedAdapter extends RubyObject {
     }
 
     private MemcachedClient client;
-    private Ruby ruby;
+    private final Ruby ruby;
 
     public SpymemcachedAdapter(Ruby ruby, RubyClass klazz) {
         super(ruby, klazz);
