@@ -379,6 +379,7 @@ public class SpymemcachedAdapter extends RubyObject {
     }
 
     private static RaiseException newRaiseException(Ruby runtime, RubyClass klass, String msg, Exception ex) {
+        if (runtime.isDebug()) ex.printStackTrace(runtime.getOut());
         RaiseException re = runtime.newRaiseException(klass, msg);
         re.initCause(ex);
         return re;
