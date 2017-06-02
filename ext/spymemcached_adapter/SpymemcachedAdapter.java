@@ -94,10 +94,8 @@ public class SpymemcachedAdapter extends RubyObject {
         try {
             return obj(client.asyncGet(key.asJavaString()));
         } catch (RuntimeException e) {
-            if (e instanceof RaiseException) {
-                throw e;
-            }
-            throw ruby.newRaiseException(getError(), e.getLocalizedMessage());
+            if (e instanceof RaiseException) throw e;
+            throw newRaiseException(ruby, getError(), e);
         }
     }
 
@@ -106,11 +104,9 @@ public class SpymemcachedAdapter extends RubyObject {
         List<String> list = Arrays.asList((String[]) keys.convertToArray().toArray(new String[0]));
         try {
             return obj(client.asyncGetBulk(list));
-        }catch(RuntimeException e) {
-            if (e instanceof RaiseException) {
-                throw e;
-            }
-            throw ruby.newRaiseException(getError(), e.getLocalizedMessage());
+        } catch (RuntimeException e) {
+            if (e instanceof RaiseException) throw e;
+            throw newRaiseException(ruby, getError(), e);
         }
     }
 
@@ -123,11 +119,9 @@ public class SpymemcachedAdapter extends RubyObject {
 
         try {
             return obj(client.add(key.asJavaString(), integer(ttl), raw.isTrue() ? value.asJavaString() : value));
-        }catch(RuntimeException e) {
-            if (e instanceof RaiseException) {
-                throw e;
-            }
-            throw ruby.newRaiseException(getError(), e.getLocalizedMessage());
+        } catch (RuntimeException e) {
+            if (e instanceof RaiseException) throw e;
+            throw newRaiseException(ruby, getError(), e);
         }
     }
 
@@ -139,11 +133,9 @@ public class SpymemcachedAdapter extends RubyObject {
         IRubyObject raw = args[3];
         try {
             return obj(client.set(key.asJavaString(), integer(ttl), raw.isTrue() ? value.asJavaString() : value));
-        }catch(RuntimeException e) {
-            if (e instanceof RaiseException) {
-                throw e;
-            }
-            throw ruby.newRaiseException(getError(), e.getLocalizedMessage());
+        } catch (RuntimeException e) {
+            if (e instanceof RaiseException) throw e;
+            throw newRaiseException(ruby, getError(), e);
         }
     }
 
@@ -155,11 +147,9 @@ public class SpymemcachedAdapter extends RubyObject {
         IRubyObject raw = args[3];
         try {
             return obj(client.replace(key.asJavaString(), integer(ttl), raw.isTrue() ? value.asJavaString() : value));
-        }catch(RuntimeException e) {
-            if (e instanceof RaiseException) {
-                throw e;
-            }
-            throw ruby.newRaiseException(getError(), e.getLocalizedMessage());
+        } catch (RuntimeException e) {
+            if (e instanceof RaiseException) throw e;
+            throw newRaiseException(ruby, getError(), e);
         }
     }
 
@@ -167,11 +157,9 @@ public class SpymemcachedAdapter extends RubyObject {
     public IRubyObject delete(IRubyObject key) {
         try {
             return obj(client.delete(key.asJavaString()));
-        }catch(RuntimeException e) {
-            if (e instanceof RaiseException) {
-                throw e;
-            }
-            throw ruby.newRaiseException(getError(), e.getLocalizedMessage());
+        } catch (RuntimeException e) {
+            if (e instanceof RaiseException) throw e;
+            throw newRaiseException(ruby, getError(), e);
         }
     }
 
@@ -179,11 +167,9 @@ public class SpymemcachedAdapter extends RubyObject {
     public IRubyObject append(IRubyObject key, IRubyObject value) {
         try {
             return obj(client.append(key.asJavaString(), value.asJavaString()));
-        }catch(RuntimeException e) {
-            if (e instanceof RaiseException) {
-                throw e;
-            }
-            throw ruby.newRaiseException(getError(), e.getLocalizedMessage());
+        } catch (RuntimeException e) {
+            if (e instanceof RaiseException) throw e;
+            throw newRaiseException(ruby, getError(), e);
         }
     }
 
@@ -191,11 +177,9 @@ public class SpymemcachedAdapter extends RubyObject {
     public IRubyObject prepend(IRubyObject key, IRubyObject value) {
         try {
             return obj(client.prepend(key.asJavaString(), value.asJavaString()));
-        }catch(RuntimeException e) {
-            if (e instanceof RaiseException) {
-                throw e;
-            }
-            throw ruby.newRaiseException(getError(), e.getLocalizedMessage());
+        } catch (RuntimeException e) {
+            if (e instanceof RaiseException) throw e;
+            throw newRaiseException(ruby, getError(), e);
         }
     }
 
@@ -217,11 +201,9 @@ public class SpymemcachedAdapter extends RubyObject {
             } else {
                 return ruby.getFalse();
             }
-        }catch(RuntimeException e) {
-            if (e instanceof RaiseException) {
-                throw e;
-            }
-            throw ruby.newRaiseException(getError(), e.getLocalizedMessage());
+        } catch (RuntimeException e) {
+            if (e instanceof RaiseException) throw e;
+            throw newRaiseException(ruby, getError(), e);
         }
     }
 
@@ -235,12 +217,10 @@ public class SpymemcachedAdapter extends RubyObject {
             long ret = client.incr(key.asJavaString(), integer(by), integer(defaultValue), integer(ttl));
             return JavaUtil.convertJavaToRuby(ruby, ret);
         } catch (OperationTimeoutException e) {
-            throw ruby.newRaiseException(getTimeoutError(), e.getLocalizedMessage());
+            throw newRaiseException(ruby, getTimeoutError(), e);
         } catch (RuntimeException e) {
-            if (e instanceof RaiseException) {
-                throw e;
-            }
-            throw ruby.newRaiseException(getError(), e.getLocalizedMessage());
+            if (e instanceof RaiseException) throw e;
+            throw newRaiseException(ruby, getError(), e);
         }
     }
 
@@ -254,12 +234,10 @@ public class SpymemcachedAdapter extends RubyObject {
             long ret = client.decr(key.asJavaString(), integer(by), integer(defaultValue), integer(ttl));
             return JavaUtil.convertJavaToRuby(ruby, ret);
         } catch (OperationTimeoutException e) {
-            throw ruby.newRaiseException(getTimeoutError(), e.getLocalizedMessage());
+            throw newRaiseException(ruby, getTimeoutError(), e);
         } catch (RuntimeException e) {
-            if (e instanceof RaiseException) {
-                throw e;
-            }
-            throw ruby.newRaiseException(getError(), e.getLocalizedMessage());
+            if (e instanceof RaiseException) throw e;
+            throw newRaiseException(ruby, getError(), e);
         }
     }
 
@@ -267,11 +245,9 @@ public class SpymemcachedAdapter extends RubyObject {
     public IRubyObject touch(IRubyObject key, IRubyObject ttl) {
         try {
             return obj(client.touch(key.asJavaString(), integer(ttl)));
-        }catch(RuntimeException e) {
-            if (e instanceof RaiseException) {
-                throw e;
-            }
-            throw ruby.newRaiseException(getError(), e.getLocalizedMessage());
+        } catch (RuntimeException e) {
+            if (e instanceof RaiseException) throw e;
+            throw newRaiseException(ruby, getError(), e);
         }
     }
 
@@ -284,11 +260,9 @@ public class SpymemcachedAdapter extends RubyObject {
                 results.op_aset(context, ruby.newString(entry.getKey().toString()), ruby.newString(entry.getValue()));
             }
             return results;
-        }catch(RuntimeException e) {
-            if (e instanceof RaiseException) {
-                throw e;
-            }
-            throw ruby.newRaiseException(getError(), e.getLocalizedMessage());
+        } catch (RuntimeException e) {
+            if (e instanceof RaiseException) throw e;
+            throw newRaiseException(ruby, getError(), e);
         }
     }
 
@@ -304,11 +278,9 @@ public class SpymemcachedAdapter extends RubyObject {
                 results.op_aset(context, ruby.newString(entry.getKey().toString()), serverHash);
             }
             return results;
-        }catch(RuntimeException e) {
-            if (e instanceof RaiseException) {
-                throw e;
-            }
-            throw ruby.newRaiseException(getError(), e.getLocalizedMessage());
+        } catch (RuntimeException e) {
+            if (e instanceof RaiseException) throw e;
+            throw newRaiseException(ruby, getError(), e);
         }
     }
 
@@ -316,11 +288,9 @@ public class SpymemcachedAdapter extends RubyObject {
     public IRubyObject flush_all() {
         try {
             return obj(client.flush());
-        }catch(RuntimeException e) {
-            if (e instanceof RaiseException) {
-                throw e;
-            }
-            throw ruby.newRaiseException(getError(), e.getLocalizedMessage());
+        } catch (RuntimeException e) {
+            if (e instanceof RaiseException) throw e;
+            throw newRaiseException(ruby, getError(), e);
         }
     }
 
@@ -329,11 +299,9 @@ public class SpymemcachedAdapter extends RubyObject {
         try {
             client.shutdown();
             return ruby.getNil();
-        }catch(RuntimeException e) {
-            if (e instanceof RaiseException) {
-                throw e;
-            }
-            throw ruby.newRaiseException(getError(), e.getLocalizedMessage());
+        } catch (RuntimeException e) {
+            if (e instanceof RaiseException) throw e;
+            throw newRaiseException(ruby, getError(), e);
         }
     }
 
@@ -348,7 +316,7 @@ public class SpymemcachedAdapter extends RubyObject {
         try {
             return new MemcachedClient(builder.build(), AddrUtil.getAddresses(servers));
         } catch (IllegalArgumentException e) {
-            throw ruby.newRaiseException(getError(), e.getLocalizedMessage());
+            throw newRaiseException(ruby, getError(), e);
         } catch (IOException e) {
             throw ruby.newIOErrorFromException(e);
         }
@@ -393,16 +361,27 @@ public class SpymemcachedAdapter extends RubyObject {
         try {
             return future.get(timeout, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
-            throw ruby.newRaiseException(getError(), "InterruptedException waiting for value: " + e.getLocalizedMessage());
+            throw newRaiseException(ruby, getError(), "InterruptedException waiting for value: " + e.getLocalizedMessage(), e);
         } catch (ExecutionException e) {
-            throw ruby.newRaiseException(getError(), "ExecutionException waiting for value: " + e.getLocalizedMessage());
+            throw newRaiseException(ruby, getError(), "ExecutionException waiting for value: " + e.getLocalizedMessage(), e);
         } catch (TimeoutException e) {
-            throw ruby.newRaiseException(getTimeoutError(), e.getLocalizedMessage());
+            throw newRaiseException(ruby, getTimeoutError(), e);
         } catch (RuntimeException e) {
             if (e.getCause() instanceof CheckedOperationTimeoutException) {
-                throw ruby.newRaiseException(getTimeoutError(), e.getLocalizedMessage());
+                throw newRaiseException(ruby, getTimeoutError(), e);
             }
             throw e;
         }
     }
+
+    private static RaiseException newRaiseException(Ruby runtime, RubyClass klass, Exception ex) {
+        return newRaiseException(runtime, klass, ex.getLocalizedMessage(), ex);
+    }
+
+    private static RaiseException newRaiseException(Ruby runtime, RubyClass klass, String msg, Exception ex) {
+        RaiseException re = runtime.newRaiseException(klass, msg);
+        re.initCause(ex);
+        return re;
+    }
+
 }
