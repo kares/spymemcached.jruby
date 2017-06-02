@@ -4,9 +4,11 @@ require 'rubygems'
 require 'bundler/setup'
 
 Rake::JavaExtensionTask.new('spymemcached_adapter') do |ext|
-  jruby_jar = File.join(ENV['RBENV_ROOT'], 'versions', ENV['RBENV_VERSION'], 'lib', 'jruby.jar')
-  jars = [jruby_jar] + FileList['lib/spymemcached-*.jar']
-  ext.classpath = jars.map {|x| File.expand_path x}.join(':')
+  jars = [ 'java.class.path', 'sun.boot.class.path' ].map! do |key|
+    ENV_JAVA[key].split(File::PATH_SEPARATOR).find_all { |jar| jar =~ /jruby/i }
+  end.flatten
+  jars += FileList['lib/spymemcached-*.jar']
+  ext.classpath = jars.map { |x| File.expand_path x }.join(':')
   ext.target_version = 1.6
   ext.source_version = 1.6
 end
